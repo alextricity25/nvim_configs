@@ -35,7 +35,6 @@ return {
   'folke/flash.nvim',
   'tpope/vim-surround',
   'treatybreaker/neogit',
-  'epwalsh/obsidian.nvim',
   -- 'SirVer/ultisnips',
   'honza/vim-snippets',
   'rafamadriz/friendly-snippets',
