@@ -52,5 +52,6 @@
         "/Users/alexcantu/.local/share/nvim/lazy/mason.nvim/lua",
         "/Users/alexcantu/.config/nvim/lua",
         "${3rd}/luv/library"
-    ]
+    ],
+    "workspace.checkThirdParty": false
 }
