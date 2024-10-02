@@ -136,15 +136,17 @@ local function visual_cursors_with_delay()
 end
 
 -- visual-multi
-wk.add({
-  { "<leader>m", group = "Visual Multi" },
-  { "<leader>mm", "<Plug>(VM-Find-Under)<Tab>", desc = "Start Multiple Cursors" },
-  { "<leader>ma", "<Plug>(VM-Select-All)<Tab>", desc = "Select All" },
-  { "<leader>mr", "<Plug>(VM-Start-Regex-Search)", desc = "Start Regex Search" },
-  { "<leader>mp", "<Plug>(VM-Add-Cursor-At-Pos)", desc = "Add Cursor At Pos" },
-  { "<leader>mu", "<Plug>(VM-Add-Cursor-Up)", desc = "Add Cursor Up" },
-  { "<leader>md", "<Plug>(VM-Add-Cursor-Down)", desc = "Add Cursor Down" },
-  { "<leader>mv", visual_cursors_with_delay(), desc = "Visual Cursors" },
-  { "<leader>mt", "<Plug>(VM-Toggle-Multiline)", desc = "Toggle Multiline" },
-  { "<leader>mo", "<Plug>(VM-Toggle-Mappings)", desc = "Toggle Mapping" },
-})
+wk.register({
+  m = {
+    name = "Visual Multi",
+    m = { "<Plug>(VM-Find-Under)<Tab>", "Start Multiple Cursors", mode = { "n" } },
+    a = { "<Plug>(VM-Select-All)<Tab>", "Select All", mode = { "n" } },
+    r = { "<Plug>(VM-Start-Regex-Search)", "Start Regex Search", mode = { "n" } },
+    p = { "<Plug>(VM-Add-Cursor-At-Pos)", "Add Cursor At Pos", mode = { "n" } },
+    u = { "<Plug>(VM-Add-Cursor-Up)", "Add Cursor Up", mode = { "n" } },
+    d = { "<Plug>(VM-Add-Cursor-Down)", "Add Cursor Down", mode = { "n" } },
+    v = { visual_cursors_with_delay, "Visual Cursors", mode = { "v" } },
+    t = { "<Plug>(VM-Toggle-Multiline)", "Toggle Multiline", mode = { "n" } },
+    o = { "<Plug>(VM-Toggle-Mappings)", "Toggle Mapping", mode = { "n" } },
+  }
+}, { prefix = "<leader>" })
