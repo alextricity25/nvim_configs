@@ -441,6 +441,7 @@ require('lspsaga').setup({
 
 -- rest.nvim
 -- require('rest-nvim').setup();
+require('tsc').setup()
 
 -- my plugins
 require('gcloudrun').setup();

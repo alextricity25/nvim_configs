@@ -162,5 +162,6 @@ return {
     end,
   },
   { 'towolf/vim-helm' },
+  { 'dmmulroy/tsc.nvim'},
   { 'alextricity25/gcloudrun.nvim', dev = true },
 }
