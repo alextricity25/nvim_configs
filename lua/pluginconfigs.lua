@@ -1,6 +1,8 @@
 ---@diagnostic disable-next-line: missing-fields
 -- which-key
-require('which-key').setup()
+require('which-key').setup({
+  notify = false,
+})
 require("toggleterm").setup {
   close_on_exit = false,
   autochdir = true,
@@ -78,10 +80,16 @@ require('ufo').setup()
 
 require('Comment').setup()
 
--- Trying out flash.nvim instead
+-- Trying out olash.nvim instead
 -- require('leap').add_default_mappings()
 --
-require('flash').setup()
+require('flash').setup({
+  modes = {
+    search = {
+      enabled = true,
+    }
+  }
+})
 
 require('diffview').setup()
 

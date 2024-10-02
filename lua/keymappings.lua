@@ -87,58 +87,44 @@ vim.keymap.set('n', '<leader>sf', '<cmd>lua require("spectre").open_file_search(
 
 -- gp (Chat GPT)
 local wk = require('which-key')
-wk.register({
-  u = {
-    name = "ChatGPT",
-    c = { "<cmd>GpChatToggle vsplit<CR>", "Toggle Chat" },
-    r = { "<cmd>GpChatRespond<CR>", "GpChatRespond with instruction" },
-    n = { "<cmd>GpChatNew<CR>", "New Chat" },
-  },
-}, {
-  prefix = "<leader>",
-  mode = "n",
+wk.add({
+  { "<leader>u", group = "ChatGPT" },
+  { "<leader>uc", "<cmd>GpChatToggle vsplit<CR>", desc = "Toggle Chat" },
+  { "<leader>ur", "<cmd>GpChatRespond<CR>", desc = "GpChatRespond with instruction" },
+  { "<leader>un", "<cmd>GpChatNew<CR>", desc = "New Chat" },
 })
 
-wk.register({
-  u = {
-    name = "ChatGPT",
-    c = { ":<C-u>'<,'>GpChatToggle vsplit<CR>", "Toggle Chat" },
-    r = { ":<C-u>'<,'>GpChatRespond<CR>", "GpChatRespond with instruction" },
-    n = { ":<C-u>'<,'>GpChatNew<CR>", "New Chat" },
-  },
-}, {
-  prefix = "<leader>",
-  mode = "v",
+wk.add({
+  { "<leader>u", group = "ChatGPT" },
+  { "<leader>uc", ":<C-u>'<,'>GpChatToggle vsplit<CR>", desc = "Toggle Chat", mode = "v" },
+  { "<leader>ur", ":<C-u>'<,'>GpChatRespond<CR>", desc = "GpChatRespond with instruction", mode = "v" },
+  { "<leader>un", ":<C-u>'<,'>GpChatNew<CR>", desc = "New Chat", mode = "v" },
 })
 
 -- Gitsigns
-wk.register({
-  g = {
-    name = "Gitsigns",
-    s = { "<cmd> require('gitsigns').stage_hunk()<cr>", "Stage Hunk" },
-    u = { "<cmd> require('gitsigns').undo_stage_hunk()<cr>", "Undo Stage Hunk" },
-    r = { "<cmd> require('gitsigns').reset_hunk()<cr>", "Reset Hunk" },
-    p = { "<cmd> require('gitsigns').preview_hunk()<cr>", "Preview Hunk" },
-    b = { "<cmd> require('gitsigns').blame_line()<cr>", "Blame Line" },
-    f = { "<cmd> require('gitsigns').diffthis('~1')<cr>", "Diff This" },
-    n = { "<cmd> require('gitsigns').next_hunk()<cr>", "Blame Line" },
-  }
-}, { prefix = "<leader>" })
+wk.add({
+  { "<leader>g", group = "Gitsigns" },
+  { "<leader>gs", "<cmd>Gitsigns stage_hunk <CR>", desc = "Stage Hunk" },
+  { "<leader>gu", "<cmd>Gitsigns undo_stage_hunk <CR>", desc = "Undo Stage Hunk" },
+  { "<leader>gr", "<cmd>Gitsigns reset_hunk <CR>", desc = "Reset Hunk" },
+  { "<leader>gp", "<cmd>Gitsigns preview_hunk <CR>", desc = "Preview Hunk" },
+  { "<leader>gb", "<cmd>Gitsigns toggle_current_line_blame <CR>", desc = "Blame Line" },
+  { "<leader>gf", "<cmd>Gitsigns diffthis <CR>", desc = "Diff This" },
+  { "<leader>gn", "<cmd>Gitsigns next_hunk <CR>", desc = "Next Hunk" },
+});
 
--- LssagaA
-wk.register({
-  l = {
-    name = "Lspsaga",
-    c = { "<cmd>Lspsaga code_action<cr>", "Code Action" },
-    o = { "<cmd>Lspsaga outline<cr>", "Outline" },
-    r = { "<cmd>Lspsaga rename<cr>", "Rename" },
-    d = { "<cmd>Lspsaga goto_definition<cr>", "Lsp GoTo Definition" },
-    f = { "<cmd>Lspsaga finder<cr>", "Lsp Finder" },
-    p = { "<cmd>Lspsaga preview_definition<cr>", "Preview Definition" },
-    s = { "<cmd>Lspsaga signature_help<cr>", "Signature Help" },
-    w = { "<cmd>Lspsaga show_workspace_diagnostics<cr>", "Show Workspace Diagnostics" },
-  }
-}, { prefix = "<leader>" })
+-- Lspsaga
+wk.add({
+  { "<leader>l", group = "Lspsaga" },
+  { "<leader>lc", "<cmd>Lspsaga code_action<cr>", desc = "Code Action" },
+  { "<leader>lo", "<cmd>Lspsaga outline<cr>", desc = "Outline" },
+  { "<leader>lr", "<cmd>Lspsaga rename<cr>", desc = "Rename" },
+  { "<leader>ld", "<cmd>Lspsaga goto_definition<cr>", desc = "Lsp GoTo Definition" },
+  { "<leader>lf", "<cmd>Lspsaga finder<cr>", desc = "Lsp Finder" },
+  { "<leader>lp", "<cmd>Lspsaga preview_definition<cr>", desc = "Preview Definition" },
+  { "<leader>ls", "<cmd>Lspsaga signature_help<cr>", desc = "Signature Help" },
+  { "<leader>lw", "<cmd>Lspsaga show_workspace_diagnostics<cr>", desc = "Show Workspace Diagnostics" },
+})
 
 local function visual_cursors_with_delay()
   -- Execute the vm-visual-cursors command.
@@ -150,17 +136,15 @@ local function visual_cursors_with_delay()
 end
 
 -- visual-multi
-wk.register({
-  m = {
-    name = "Visual Multi",
-    m = { "<Plug>(VM-Find-Under)<Tab>", "Start Multiple Cursors", mode = { "n" } },
-    a = { "<Plug>(VM-Select-All)<Tab>", "Select All", mode = { "n" } },
-    r = { "<Plug>(VM-Start-Regex-Search)", "Start Regex Search", mode = { "n" } },
-    p = { "<Plug>(VM-Add-Cursor-At-Pos)", "Add Cursor At Pos", mode = { "n" } },
-    u = { "<Plug>(VM-Add-Cursor-Up)", "Add Cursor Up", mode = { "n" } },
-    d = { "<Plug>(VM-Add-Cursor-Down)", "Add Cursor Down", mode = { "n" } },
-    v = { visual_cursors_with_delay, "Visual Cursors", mode = { "v" } },
-    t = { "<Plug>(VM-Toggle-Multiline)", "Toggle Multiline", mode = { "n" } },
-    o = { "<Plug>(VM-Toggle-Mappings)", "Toggle Mapping", mode = { "n" } },
-  }
-}, { prefix = "<leader>" })
+wk.add({
+  { "<leader>m", group = "Visual Multi" },
+  { "<leader>mm", "<Plug>(VM-Find-Under)<Tab>", desc = "Start Multiple Cursors" },
+  { "<leader>ma", "<Plug>(VM-Select-All)<Tab>", desc = "Select All" },
+  { "<leader>mr", "<Plug>(VM-Start-Regex-Search)", desc = "Start Regex Search" },
+  { "<leader>mp", "<Plug>(VM-Add-Cursor-At-Pos)", desc = "Add Cursor At Pos" },
+  { "<leader>mu", "<Plug>(VM-Add-Cursor-Up)", desc = "Add Cursor Up" },
+  { "<leader>md", "<Plug>(VM-Add-Cursor-Down)", desc = "Add Cursor Down" },
+  { "<leader>mv", visual_cursors_with_delay(), desc = "Visual Cursors" },
+  { "<leader>mt", "<Plug>(VM-Toggle-Multiline)", desc = "Toggle Multiline" },
+  { "<leader>mo", "<Plug>(VM-Toggle-Mappings)", desc = "Toggle Mapping" },
+})
