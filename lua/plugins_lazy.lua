@@ -162,6 +162,22 @@ return {
     end,
   },
   { 'towolf/vim-helm' },
-  { 'dmmulroy/tsc.nvim'},
+  { 'dmmulroy/tsc.nvim' },
   { 'alextricity25/gcloudrun.nvim', dev = true },
+  {
+    "ray-x/go.nvim",
+    dependencies = { -- optional packages
+      "ray-x/guihua.lua",
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    event = { "CmdlineEnter" },
+    ft = { "go", 'gomod' },
+  },
+  {
+    'projekt0n/github-nvim-theme',
+    name = 'github-theme',
+    lazy = false,  -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+  }
 }

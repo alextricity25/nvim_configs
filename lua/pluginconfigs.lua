@@ -197,6 +197,12 @@ require("mason-lspconfig").setup_handlers {
       },
     }
   end,
+  ["gopls"] = function()
+    require("lspconfig").gopls.setup {
+      capabilities = capabilities,
+      cmd = { "gopls", "-vv", "-logfile=/Users/alexcantu/goplslogfile.txt" },
+    }
+  end,
   -- ["yamlls"] = function()
   --   require("lspconfig").yamlls.setup {
   --     capabilities = capabilities,
@@ -453,3 +459,13 @@ require('tsc').setup()
 
 -- my plugins
 require('gcloudrun').setup();
+
+require("go").setup({
+  lsp_keymaps = false,
+  null_ls = false,
+  gopls_cmd = {"/Users/alexcantu/.local/share/nvim/mason/bin/gopls", "-logfile","/var/log/gopls.log" },
+  dap_debug = false,
+  dap_debug_keymap = false,
+})
+
+require("github-theme").setup()

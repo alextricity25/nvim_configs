@@ -35,7 +35,7 @@ require('pluginconfigs')
 require('keymappings')
 
 -- Colorscheme
-vim.cmd 'colorscheme everforest'
+vim.cmd 'colorscheme github_dark'
 vim.cmd 'set termguicolors'
 
 -- Create Reload Snippets Command
