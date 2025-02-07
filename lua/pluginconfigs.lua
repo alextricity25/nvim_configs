@@ -141,6 +141,14 @@ require('ssr').setup({
 })
 -- neodev
 require('neodev').setup()
+require("go").setup({
+  verbose = true,
+  lsp_config = false,
+  null_ls = false,
+  gopls_cmd = {"/Users/alexcantu/.local/share/nvim/mason/bin/gopls"},
+  dap_debug = false,
+  dap_debug_keymap = false,
+})
 -- Mason, LSPConfig
 require('mason').setup()
 require('mason-lspconfig').setup()
@@ -460,12 +468,5 @@ require('tsc').setup()
 -- my plugins
 require('gcloudrun').setup();
 
-require("go").setup({
-  lsp_keymaps = false,
-  null_ls = false,
-  gopls_cmd = {"/Users/alexcantu/.local/share/nvim/mason/bin/gopls", "-logfile","/var/log/gopls.log" },
-  dap_debug = false,
-  dap_debug_keymap = false,
-})
-
 require("github-theme").setup()
+require("nvim-treesitter.configs").setup({ highlight = { enable = true } })
