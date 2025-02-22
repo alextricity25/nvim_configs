@@ -32,7 +32,7 @@ return {
   'nvim-lualine/lualine.nvim',
   'numToStr/Comment.nvim',
   'sindrets/diffview.nvim',
-  'folke/flash.nvim',
+  -- 'folke/flash.nvim',
   'tpope/vim-surround',
   'treatybreaker/neogit',
   -- 'SirVer/ultisnips',
@@ -177,7 +177,9 @@ return {
   {
     'projekt0n/github-nvim-theme',
     name = 'github-theme',
-    lazy = false,  -- make sure we load this during startup if it is your main colorscheme
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
-  }
+  },
+  { 'kevinhwang91/nvim-hlslens' },
+  { 'petertriho/nvim-scrollbar' },
 }

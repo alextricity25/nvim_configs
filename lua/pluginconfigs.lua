@@ -80,16 +80,16 @@ require('ufo').setup()
 
 require('Comment').setup()
 
--- Trying out olash.nvim instead
+-- Trying out flash.nvim instead
 -- require('leap').add_default_mappings()
 --
-require('flash').setup({
-  modes = {
-    search = {
-      enabled = true,
-    }
-  }
-})
+-- require('flash').setup({
+--   modes = {
+--     search = {
+--       enabled = true,
+--     }
+--   }
+-- })
 
 require('diffview').setup()
 
@@ -145,7 +145,7 @@ require("go").setup({
   verbose = true,
   lsp_config = false,
   null_ls = false,
-  gopls_cmd = {"/Users/alexcantu/.local/share/nvim/mason/bin/gopls"},
+  gopls_cmd = { "/Users/alexcantu/.local/share/nvim/mason/bin/gopls" },
   dap_debug = false,
   dap_debug_keymap = false,
 })
@@ -470,3 +470,33 @@ require('gcloudrun').setup();
 
 require("github-theme").setup()
 require("nvim-treesitter.configs").setup({ highlight = { enable = true } })
+require("scrollbar").setup({
+  handle = {
+    text = "  ",
+  },
+  marks = {
+    Cursor = {
+      text = "••",
+    },
+    Search = {
+      text = {"--", "--"},
+      highlight = "DiagnosticVirtualTextInfo"
+    },
+    GitAdd = {
+      text = "++",
+    },
+    GitChange = {
+      text = "||",
+    },
+    GitDelete = {
+      text = "--",
+    },
+  },
+  handlers = {
+    gitsigns = true,
+    search = true,
+  },
+})
+require("hlslens").setup({
+  calm_down = true,
+})
