@@ -6,6 +6,7 @@ local indent = 4
 cmd 'syntax enable'
 cmd 'filetype plugin indent on'
 cmd 'set shell=/bin/zsh'
+cmd 'set number'
 cmd 'let g:VM_add_cursor_at_pos_no_mappings = 1'
 -- cmd 'set termguicolors'
 utils.opt('b', 'expandtab', true)
@@ -19,7 +20,7 @@ utils.opt('o', 'smartcase', true)
 utils.opt('o', 'splitbelow', true)
 utils.opt('o', 'splitright', true)
 utils.opt('o', 'wildmode', 'list:longest')
-utils.opt('w', 'relativenumber', true)
+-- utils.opt('w', 'relativenumber', true)
 utils.opt('o', 'clipboard', 'unnamed,unnamedplus')
 -- code folding
 utils.opt('o', 'foldcolumn', '1')

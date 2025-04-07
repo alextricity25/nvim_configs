@@ -182,4 +182,5 @@ return {
   },
   { 'kevinhwang91/nvim-hlslens' },
   { 'petertriho/nvim-scrollbar' },
+  { 'luukvbaal/statuscol.nvim' },
 }
