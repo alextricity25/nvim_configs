@@ -42,3 +42,8 @@ vim.opt.listchars:append "eol:↴"
 
 -- undo
 utils.opt('o', 'undofile', true)
+
+-- backup
+utils.opt('o', 'backup', false)
+utils.opt('o', 'writebackup', false)
+
