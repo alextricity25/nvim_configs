@@ -1,5 +1,19 @@
-local utils = require('utils')
 local wk = require('which-key')
+
+-- Telescope
+wk.add({
+  { "<leader>f",  group = "Telescope" },
+  { "<leader>ff", "<cmd>Telescope find_files hidden=true<cr>",                                desc = "Find Files" },
+  { "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+                                                                                                desc =
+    "Live Grep with Args" },
+  { "<leader>fb", "<cmd>Telescope buffers<cr>",                                               desc = "Buffers" },
+  { "<leader>fh", "<cmd>Telescope help_tags<cr>",                                             desc = "Help Tags" },
+  { "<leader>fc", "<cmd>Telescope commands<cr>",                                              desc = "Commands" },
+  { "<leader>f/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Current Buffer Fuzzy Find" },
+
+})
+
 
 -- NvimTree
 wk.add({
@@ -58,19 +72,35 @@ wk.add({
 
 -- ssr and spectre
 wk.add({
-  { "<leader>s",  group = "Search and Replace" },
-  { "<leader>S",  require("spectre").toggle,                                                mode = "n",
-                                                                                                          desc =
-    "Toggle Spectre" },
-  { "<leader>sw", function() require("spectre").open_visual({ select_word = true }) end,    mode = "n",
-                                                                                                          desc =
-    "Search Current Word" },
-  { "<leader>sw", require("spectre").open_visual,                                           mode = "v",
-                                                                                                          desc =
-    "Search Current Word" },
-  { "<leader>sf", function() require("spectre").open_file_search({ select_word = true }) end, mode = "n",
-                                                                                                          desc =
-    "Search on current file" },
+  { "<leader>s", group = "Search and Replace" },
+  {
+    "<leader>S",
+    require("spectre").toggle,
+    mode = "n",
+    desc =
+    "Toggle Spectre"
+  },
+  {
+    "<leader>sw",
+    function() require("spectre").open_visual({ select_word = true }) end,
+    mode = "n",
+    desc =
+    "Search Current Word"
+  },
+  {
+    "<leader>sw",
+    require("spectre").open_visual,
+    mode = "v",
+    desc =
+    "Search Current Word"
+  },
+  {
+    "<leader>sf",
+    function() require("spectre").open_file_search({ select_word = true }) end,
+    mode = "n",
+    desc =
+    "Search on current file"
+  },
   {
     "<leader>sr",
     require("ssr").open,
@@ -159,6 +189,11 @@ wk.register({
 
 -- hlslens
 wk.add({
-  { "n", "<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>", desc = "Highlight Lens",
-    mode = "n", { noremap = true, silent = true } },
+  {
+    "n",
+    "<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>",
+    desc = "Highlight Lens",
+    mode = "n",
+    { noremap = true, silent = true }
+  },
 })
