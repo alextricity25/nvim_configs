@@ -178,13 +178,59 @@ require('lspconfig').laravel_ls.setup {
   capabilities = capabilities,
 }
 
+local utils = require('utils')
+
 require("mason-lspconfig").setup_handlers {
   -- The first entry (without a key) will be the default handler
   -- and will be called for each installed server that doesn't have
   -- a dedicated handler.
   function(server_name) -- default handler (optional)
+    -- Skip ts_ls and denols - they have dedicated handlers
+    if server_name == "ts_ls" or server_name == "denols" then
+      return
+    end
     require("lspconfig")[server_name].setup {
       capabilities = capabilities,
+    }
+  end,
+  ["ts_ls"] = function()
+    require("lspconfig").ts_ls.setup {
+      capabilities = capabilities,
+      root_dir = function(fname)
+        local root = require('lspconfig').util.root_pattern("package.json", "tsconfig.json", ".git")(fname)
+        if root and not utils.is_deno_project(root) then
+          return root
+        end
+        -- Don't attach to single files in Deno projects
+        return nil
+      end,
+      single_file_support = false,
+    }
+  end,
+  ["denols"] = function()
+    require("lspconfig").denols.setup {
+      capabilities = capabilities,
+      root_dir = function(fname)
+        local root = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc", "deno.lock", "import_map.json", ".git")(fname)
+        if root and utils.is_deno_project(root) then
+          return root
+        end
+        return nil
+      end,
+      single_file_support = false,
+      init_options = {
+        lint = true,
+        unstable = true,
+        suggest = {
+          imports = {
+            hosts = {
+              ["https://deno.land"] = true,
+              ["https://cdn.nest.land"] = true,
+              ["https://crux.land"] = true,
+            },
+          },
+        },
+      },
     }
   end,
   ["helm_ls"] = function()
@@ -334,6 +380,7 @@ require('harpoon').setup({
   }
 })
 require("telescope").load_extension('harpoon')
+require("telescope").load_extension("live_grep_args")
 
 -- spectre
 require('spectre').setup({
