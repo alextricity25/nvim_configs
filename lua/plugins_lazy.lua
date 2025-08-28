@@ -189,4 +189,9 @@ return {
   { 'kevinhwang91/nvim-hlslens' },
   { 'petertriho/nvim-scrollbar' },
   { 'luukvbaal/statuscol.nvim' },
+  {
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    config = true,
+  }
 }

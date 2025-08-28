@@ -197,12 +197,15 @@ require("mason-lspconfig").setup_handlers {
     require("lspconfig").ts_ls.setup {
       capabilities = capabilities,
       root_dir = function(fname)
-        local root = require('lspconfig').util.root_pattern("package.json", "tsconfig.json", ".git")(fname)
-        if root and not utils.is_deno_project(root) then
-          return root
+        -- First check if file is in a Deno subdirectory
+        local deno_root = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc", "deno.lock", "import_map.json")(fname)
+        if deno_root then
+          return nil -- Let denols handle this file
         end
-        -- Don't attach to single files in Deno projects
-        return nil
+
+        -- If not in Deno subdirectory, use TypeScript/Node.js patterns
+        local root = require('lspconfig').util.root_pattern("package.json", "tsconfig.json", ".git")(fname)
+        return root
       end,
       single_file_support = false,
     }
@@ -211,11 +214,9 @@ require("mason-lspconfig").setup_handlers {
     require("lspconfig").denols.setup {
       capabilities = capabilities,
       root_dir = function(fname)
-        local root = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc", "deno.lock", "import_map.json", ".git")(fname)
-        if root and utils.is_deno_project(root) then
-          return root
-        end
-        return nil
+        -- Only attach if file is in a directory with Deno markers
+        local root = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc", "deno.lock", "import_map.json")(fname)
+        return root
       end,
       single_file_support = false,
       init_options = {
@@ -558,5 +559,12 @@ require('statuscol').setup({
       condition = { builtin.not_empty, true, builtin.not_empty },
       click = "v:lua.ScFa"
     },
+  },
+})
+
+require("claudecode").setup({
+  terminal_cmd = '/Users/alexcantu/.claude/local/claude',
+  terminal = {
+    provider = 'snacks',
   },
 })

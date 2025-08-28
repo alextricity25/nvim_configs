@@ -3,13 +3,16 @@ local wk = require('which-key')
 -- Telescope
 wk.add({
   { "<leader>f",  group = "Telescope" },
-  { "<leader>ff", "<cmd>Telescope find_files hidden=true<cr>",                                desc = "Find Files" },
-  { "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
-                                                                                                desc =
-    "Live Grep with Args" },
-  { "<leader>fb", "<cmd>Telescope buffers<cr>",                                               desc = "Buffers" },
-  { "<leader>fh", "<cmd>Telescope help_tags<cr>",                                             desc = "Help Tags" },
-  { "<leader>fc", "<cmd>Telescope commands<cr>",                                              desc = "Commands" },
+  { "<leader>ff", "<cmd>Telescope find_files hidden=true<cr>", desc = "Find Files" },
+  {
+    "<leader>fg",
+    ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+    desc =
+    "Live Grep with Args"
+  },
+  { "<leader>fb", "<cmd>Telescope buffers<cr>",                   desc = "Buffers" },
+  { "<leader>fh", "<cmd>Telescope help_tags<cr>",                 desc = "Help Tags" },
+  { "<leader>fc", "<cmd>Telescope commands<cr>",                  desc = "Commands" },
   { "<leader>f/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Current Buffer Fuzzy Find" },
 
 })
@@ -197,3 +200,22 @@ wk.add({
     { noremap = true, silent = true }
   },
 })
+
+wk.add({
+  { "<leader>a",  group = "Claude",                 desc = "AI/Claude Code" },
+  { "<leader>ac", "<cmd>ClaudeCode<cr>",            desc = "Toggle Claude" },
+  { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",       desc = "Focus Claude" },
+  { "<leader>ar", "<cmd>ClaudeCode --resume<cr>",   desc = "Resume Claude" },
+  { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+  { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>",       desc = "Add current buffer" },
+  { "<leader>as", "<cmd>ClaudeCodeSend<cr>",        mode = "v",                 desc = "Send to Claude" },
+  {
+    "<leader>as",
+    "<cmd>ClaudeCodeTreeAdd<cr>",
+    desc = "Add file",
+    ft = { "NvimTree", "neo-tree", "oil" },
+  },
+  -- Diff management
+  { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+  { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",   desc = "Deny diff" },
+});
