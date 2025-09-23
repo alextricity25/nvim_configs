@@ -179,6 +179,7 @@ require('lspconfig').laravel_ls.setup {
 }
 
 local utils = require('utils')
+local lsp_utils = require('lsp_utils')
 
 require("mason-lspconfig").setup_handlers {
   -- The first entry (without a key) will be the default handler
@@ -197,15 +198,7 @@ require("mason-lspconfig").setup_handlers {
     require("lspconfig").ts_ls.setup {
       capabilities = capabilities,
       root_dir = function(fname)
-        -- First check if file is in a Deno subdirectory
-        local deno_root = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc", "deno.lock", "import_map.json")(fname)
-        if deno_root then
-          return nil -- Let denols handle this file
-        end
-
-        -- If not in Deno subdirectory, use TypeScript/Node.js patterns
-        local root = require('lspconfig').util.root_pattern("package.json", "tsconfig.json", ".git")(fname)
-        return root
+        return lsp_utils.get_typescript_root_dir(fname, require('lspconfig').util.root_pattern)
       end,
       single_file_support = false,
     }
@@ -214,9 +207,7 @@ require("mason-lspconfig").setup_handlers {
     require("lspconfig").denols.setup {
       capabilities = capabilities,
       root_dir = function(fname)
-        -- Only attach if file is in a directory with Deno markers
-        local root = require('lspconfig').util.root_pattern("deno.json", "deno.jsonc", "deno.lock", "import_map.json")(fname)
-        return root
+        return lsp_utils.get_deno_root_dir(fname, require('lspconfig').util.root_pattern)
       end,
       single_file_support = false,
       init_options = {
@@ -256,6 +247,14 @@ require("mason-lspconfig").setup_handlers {
     require("lspconfig").gopls.setup {
       capabilities = capabilities,
       cmd = { "gopls", "-vv", "-logfile=/Users/alexcantu/goplslogfile.txt" },
+    }
+  end,
+  ["eslint"] = function()
+    require("lspconfig").eslint.setup {
+      capabilities = capabilities,
+      root_dir = function(fname)
+        return lsp_utils.get_eslint_root_dir(fname, require('lspconfig').util.root_pattern)
+      end,
     }
   end,
   -- ["yamlls"] = function()
