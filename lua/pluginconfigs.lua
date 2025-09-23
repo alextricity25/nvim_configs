@@ -160,24 +160,6 @@ capabilities.textDocument.foldingRange = {
   lineFoldingOnly = true,
 }
 
--- laravel ls
-local lsp_config = require('lspconfig.configs')
-if not lsp_config.laravel_ls then
-  lsp_config.laravel_ls = {
-    default_config = {
-      cmd = { "laravel-dev-tools", "lsp" },
-      filetypes = { 'blade' },
-      root_dir = function(fname)
-        return require('lspconfig').util.root_pattern("composer.json", ".git")(fname) or vim.fn.getcwd()
-      end,
-      settings = {},
-    },
-  }
-end
-require('lspconfig').laravel_ls.setup {
-  capabilities = capabilities,
-}
-
 local utils = require('utils')
 local lsp_utils = require('lsp_utils')
 
@@ -186,12 +168,20 @@ require("mason-lspconfig").setup_handlers {
   -- and will be called for each installed server that doesn't have
   -- a dedicated handler.
   function(server_name) -- default handler (optional)
-    -- Skip ts_ls and denols - they have dedicated handlers
-    if server_name == "ts_ls" or server_name == "denols" then
+    -- Skip ts_ls, denols, and laravel_ls - they have dedicated handlers
+    if server_name == "ts_ls" or server_name == "denols" or server_name == "laravel_ls" then
       return
     end
     require("lspconfig")[server_name].setup {
       capabilities = capabilities,
+    }
+  end,
+  ["laravel_ls"] = function()
+    require("lspconfig").laravel_ls.setup {
+      capabilities = capabilities,
+      cmd = { "/Users/alexcantu/go/bin/laravel-ls" },
+      filetypes = { "php" },
+      root_dir = require('lspconfig').util.root_pattern("composer.json", "artisan", ".git"),
     }
   end,
   ["ts_ls"] = function()
@@ -517,6 +507,30 @@ require('gcloudrun').setup();
 
 require("github-theme").setup()
 require("nvim-treesitter.configs").setup({ highlight = { enable = true } })
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.blade = {
+    install_info = {
+        url = "https://github.com/EmranMR/tree-sitter-blade",
+        files = { "src/parser.c" },
+        branch = "main",
+    },
+    filetype = "blade"
+}
+
+vim.filetype.add({
+    pattern = {
+        ['.*%.blade%.php'] = 'blade',
+    }
+})
+local bladeGrp
+vim.api.nvim_create_augroup("BladeFiltypeRelated", { clear = true })
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = "*.blade.php",
+    group = bladeGrp,
+    callback = function()
+        vim.opt.filetype = "blade"
+    end,
+})
 require("scrollbar").setup({
   handle = {
     text = "  ",
