@@ -151,7 +151,6 @@ require("go").setup({
 })
 -- Mason, LSPConfig
 require('mason').setup()
-require('mason-lspconfig').setup()
 -- local lspconfig = require('lspconfig')
 -- lspconfig.lua_ls.setup {}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -163,136 +162,111 @@ capabilities.textDocument.foldingRange = {
 local utils = require('utils')
 local lsp_utils = require('lsp_utils')
 
-require("mason-lspconfig").setup_handlers {
-  -- The first entry (without a key) will be the default handler
-  -- and will be called for each installed server that doesn't have
-  -- a dedicated handler.
-  function(server_name) -- default handler (optional)
-    -- Skip ts_ls, denols, and laravel_ls - they have dedicated handlers
-    if server_name == "ts_ls" or server_name == "denols" or server_name == "laravel_ls" then
-      return
+vim.lsp.config('laravel_ls', {
+  capabilities = capabilities,
+  cmd = { "/Users/alexcantu/go/bin/laravel-ls" },
+  filetypes = { "php" },
+  -- root_markers = require('lspconfig').util.root_pattern("composer.json", "artisan", ".git"),
+})
+
+-- We may need this for IDP development
+-- vim.lsp.enable('laravel_ls')
+
+
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "php", "blade" },
+--   callback = function()
+--     vim.lsp.start({
+--       name = "laravel-ls",
+--
+--       -- if laravel ls is in your $PATH
+--       cmd = { '/Users/alexcantu/go/bin/laravel-ls' },
+--
+--       -- Absolute path
+--       -- cmd = { '/path/to/laravel-ls/build/laravel-ls' },
+--
+--       -- if you want to recompile everytime
+--       -- the language server is started.
+--       -- cmd = { '/path/to/laravel-ls/start.sh' },
+--
+--       root_dir = require('lspconfig').util.root_pattern("composer.json", "artisan", ".git"),
+--     })
+--   end
+-- })
+
+vim.lsp.config('ts_ls', {
+  capabilities = capabilities,
+  root_dir = function(fname, on_dir)
+    local root = lsp_utils.get_typescript_root_dir(fname, require('lspconfig').util.root_pattern)
+    if root then
+      on_dir(root)
     end
-    require("lspconfig")[server_name].setup {
-      capabilities = capabilities,
-    }
   end,
-  ["laravel_ls"] = function()
-    require("lspconfig").laravel_ls.setup {
-      capabilities = capabilities,
-      cmd = { "/Users/alexcantu/go/bin/laravel-ls" },
-      filetypes = { "php" },
-      root_dir = require('lspconfig').util.root_pattern("composer.json", "artisan", ".git"),
-    }
+})
+
+vim.lsp.config('denols', {
+  capabilities = capabilities,
+  root_dir = function(fname, on_dir)
+    local root = lsp_utils.get_deno_root_dir(fname, require('lspconfig').util.root_pattern)
+    if root then
+      on_dir(root)
+    end
   end,
-  ["ts_ls"] = function()
-    require("lspconfig").ts_ls.setup {
-      capabilities = capabilities,
-      root_dir = function(fname)
-        return lsp_utils.get_typescript_root_dir(fname, require('lspconfig').util.root_pattern)
-      end,
-      single_file_support = false,
-    }
-  end,
-  ["denols"] = function()
-    require("lspconfig").denols.setup {
-      capabilities = capabilities,
-      root_dir = function(fname)
-        return lsp_utils.get_deno_root_dir(fname, require('lspconfig').util.root_pattern)
-      end,
-      single_file_support = false,
-      init_options = {
-        lint = true,
-        unstable = true,
-        suggest = {
-          imports = {
-            hosts = {
-              ["https://deno.land"] = true,
-              ["https://cdn.nest.land"] = true,
-              ["https://crux.land"] = true,
-            },
+  single_file_support = false,
+  init_options = {
+    lint = true,
+    unstable = true,
+    suggest = {
+      imports = {
+        hosts = {
+          ["https://deno.land"] = true,
+          ["https://cdn.nest.land"] = true,
+          ["https://crux.land"] = true,
+        },
+      },
+    },
+  },
+})
+
+vim.lsp.config('helm_ls', {
+  capabilities = capabilities,
+  settings = {
+    ['helm-ls'] = {
+      yamlls = {
+        path = "yaml-language-server",
+        config = {
+          schemas = {
+            -- kubernetes = "/*.yaml",
+            -- ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = "*.gitlab-ci.yml",
           },
         },
       },
-    }
+    },
+  },
+})
+
+vim.lsp.config('gopls', {
+  capabilities = capabilities,
+  cmd = { "gopls", "-vv", "-logfile=/Users/alexcantu/goplslogfile.txt" },
+})
+
+vim.lsp.config('eslint', {
+  capabilities = capabilities,
+  root_dir = function(fname, on_dir)
+    local root = lsp_utils.get_eslint_root_dir(fname, require('lspconfig').util.root_pattern)
+    if root then
+      on_dir(root)
+    end
   end,
-  ["helm_ls"] = function()
-    require("lspconfig").helm_ls.setup {
-      capabilities = capabilities,
-      settings = {
-        ['helm-ls'] = {
-          yamlls = {
-            path = "yaml-language-server",
-            config = {
-              schemas = {
-                -- kubernetes = "/*.yaml",
-                -- ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = "*.gitlab-ci.yml",
-              },
-            },
-          },
-        },
-      },
-    }
-  end,
-  ["gopls"] = function()
-    require("lspconfig").gopls.setup {
-      capabilities = capabilities,
-      cmd = { "gopls", "-vv", "-logfile=/Users/alexcantu/goplslogfile.txt" },
-    }
-  end,
-  ["eslint"] = function()
-    require("lspconfig").eslint.setup {
-      capabilities = capabilities,
-      root_dir = function(fname)
-        return lsp_utils.get_eslint_root_dir(fname, require('lspconfig').util.root_pattern)
-      end,
-    }
-  end,
-  -- ["yamlls"] = function()
-  --   require("lspconfig").yamlls.setup {
-  --     capabilities = capabilities,
-  --     settings = {
-  --       yaml = {
-  --         schemas = {
-  --           kubernetes = "/*.yaml",
-  --           -- Add the schema for gitlab piplines
-  --           -- Gotten from yaml sechema store
-  --           -- https://www.schemastore.org/json/
-  --           ["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = "*.gitlab-ci.yml",
-  --           -- ["https://json.schemastore.org/pulumi.json"] = "Pulumi.*.yaml",
-  --         },
-  --       },
-  --     },
-  --   }
-  -- end,
-}
--- gitlab_lsp so that gitlab duo works
--- local configs = require('lspconfig.configs')
--- local lspconfig = require('lspconfig')
--- if configs.gitlab_lsp then
---   print('Already set');
--- else
---   local settings = {
---     baseUrl = "https://gitlab.com",
---     token = vim.env.GITLAB_TOKEN,
---   }
---   configs.gitlab_lsp = {
---     default_config = {
---       name = "gitlab_lsp",
---       cmd = {"/Users/alexcantu/.local/share/nvim/lazy/gitlab.vim/node_modules/@gitlab-org/gitlab-lsp/out/node/main.js", "--stdio"},
---       filetypes = { "lua", "typescript" },
---       single_file_support = true,
---       root_dir = function(fname)
---         return lspconfig.util.find_git_ancestor(fname)
---       end,
---       settings = settings,
---     },
---     docs = {
---       description = "Gitlab code suggestions",
---     },
---   }
---   lspconfig.gitlab_lsp.setup({})
--- end
--- require('nvim-lspconfig').setup()
+})
+-- Enable when needed for IDP development
+vim.lsp.enable('laravel_ls')
+
+require('mason-lspconfig').setup(
+  {
+    automatic_enable = true,
+  }
+)
 require('lspmappings')
 
 -- completion
@@ -387,26 +361,6 @@ require('gp').setup({
   openai_api_key = os.getenv("OPENAI_API_KEY"),
   -- chat_model = {"gpt-4-1106-preview"},
 })
--- require("chatgpt").setup({
---   openai_api_key = os.getenv("OPENAI_API_KEY"),
---   openai_params = {
---     model = "gpt-4-turbo-preview",
---     frequency_penalty = 0,
---     presence_penalty = 0,
---     max_tokens = 4000,
---     temperature = 0,
---     top_p = 1,
---     n = 1,
---   },
---   openai_edit_params = {
---     model = "gpt-4-0125-preview",
---     frequency_penalty = 0,
---     presence_penalty = 0,
---     temperature = 0,
---     top_p = 1,
---     n = 1,
---   },
--- })
 require("aerial").setup({
   backends = { 'lsp' },
   filter_kind = false,
@@ -509,27 +463,27 @@ require("github-theme").setup()
 require("nvim-treesitter.configs").setup({ highlight = { enable = true } })
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.blade = {
-    install_info = {
-        url = "https://github.com/EmranMR/tree-sitter-blade",
-        files = { "src/parser.c" },
-        branch = "main",
-    },
-    filetype = "blade"
+  install_info = {
+    url = "https://github.com/EmranMR/tree-sitter-blade",
+    files = { "src/parser.c" },
+    branch = "main",
+  },
+  filetype = "blade"
 }
 
 vim.filetype.add({
-    pattern = {
-        ['.*%.blade%.php'] = 'blade',
-    }
+  pattern = {
+    ['.*%.blade%.php'] = 'blade',
+  }
 })
 local bladeGrp
 vim.api.nvim_create_augroup("BladeFiltypeRelated", { clear = true })
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-    pattern = "*.blade.php",
-    group = bladeGrp,
-    callback = function()
-        vim.opt.filetype = "blade"
-    end,
+  pattern = "*.blade.php",
+  group = bladeGrp,
+  callback = function()
+    vim.opt.filetype = "blade"
+  end,
 })
 require("scrollbar").setup({
   handle = {
