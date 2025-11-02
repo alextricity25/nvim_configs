@@ -96,7 +96,6 @@ return {
           { "<leader>gw", gs.toggle_word_diff, desc = "Toggle word diff", buffer = bufnr },
           { "<leader>gl", gs.toggle_linehl, desc = "Toggle line highlight", buffer = bufnr },
           { "<leader>gn", gs.toggle_numhl, desc = "Toggle number highlight", buffer = bufnr },
-          { "<leader>gt", gs.toggle_deleted, desc = "Toggle deleted lines", buffer = bufnr },
 
           -- Text object for hunks
           { "ih", ":<C-U>Gitsigns select_hunk<CR>", desc = "Select git hunk", buffer = bufnr, mode = { "o", "x" } },
