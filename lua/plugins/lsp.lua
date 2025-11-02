@@ -45,10 +45,15 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
+      "saghen/blink.cmp", -- Add blink.cmp as dependency for LSP capabilities
     },
     config = function()
+      -- Get blink.cmp capabilities for LSP servers
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
+
       -- Configure lua_ls using vim.lsp.config API
       vim.lsp.config("lua_ls", {
+        capabilities = capabilities,
         settings = {
           Lua = {
             diagnostics = {
