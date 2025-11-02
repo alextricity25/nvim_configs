@@ -58,7 +58,7 @@ return {
         -- Filters
         filters = {
           dotfiles = false,
-          custom = { ".git", "node_modules", ".cache" },
+          custom = {"node_modules", ".cache" },
         },
 
         -- Git integration
