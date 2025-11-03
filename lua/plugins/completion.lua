@@ -20,6 +20,7 @@ return {
       keymap = {
         preset = "default", -- Uses <C-space>, <C-e>, <C-y>, <Up>/<Down>, <C-p>/<C-n>, Tab/S-Tab
         -- Customizations (merged with preset)
+        ["<CR>"] = { "accept", "fallback" }, -- Enter to accept completion
         ["<C-k>"] = { "show_documentation", "fallback" },
         ["<C-l>"] = { "accept", "fallback" },
       },
@@ -92,7 +93,8 @@ return {
       wk.add({
         { "<C-space>", desc = "Show completion", mode = "i" },
         { "<C-e>", desc = "Hide completion", mode = "i" },
-        { "<C-y>", desc = "Accept completion", mode = "i" },
+        { "<CR>", desc = "Accept completion", mode = "i" },
+        { "<C-y>", desc = "Accept completion (alt)", mode = "i" },
         { "<C-l>", desc = "Accept completion (alt)", mode = "i" },
         { "<C-k>", desc = "Show documentation", mode = "i" },
         { "<C-p>", desc = "Previous item", mode = "i" },
