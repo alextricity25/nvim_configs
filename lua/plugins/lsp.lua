@@ -33,7 +33,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
-      ensure_installed = { "lua_ls" },
+      ensure_installed = { "lua_ls", "ts_ls" },
       automatic_installation = true,
     },
   },
@@ -73,6 +73,39 @@ return {
       -- Enable lua_ls
       vim.lsp.enable("lua_ls")
 
+      -- Configure ts_ls (TypeScript/JavaScript) using vim.lsp.config API
+      vim.lsp.config("ts_ls", {
+        capabilities = capabilities,
+        filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        settings = {
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+          javascript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+        },
+      })
+
+      -- Enable ts_ls
+      vim.lsp.enable("ts_ls")
+
       -- Register LSP keymaps with which-key
       local wk = require("which-key")
       wk.add({
@@ -91,4 +124,6 @@ return {
     end,
   },
 }
+
+
 
