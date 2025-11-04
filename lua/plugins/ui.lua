@@ -54,6 +54,7 @@ return {
   -- Example:
   {
     "folke/tokyonight.nvim",
+    tag = "v4.11.0",
     priority = 1000,
     config = function()
       vim.cmd([[colorscheme tokyonight]])
@@ -63,7 +64,8 @@ return {
   -- Statusline
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    branch = "master", -- No formal releases, use master branch
+    dependencies = { { "nvim-tree/nvim-web-devicons", tag = "v0.100" } },
     event = "VeryLazy",
     opts = {
       options = {
@@ -88,7 +90,7 @@ return {
     "akinsho/bufferline.nvim",
     version = "*",
     dependencies = {
-      "nvim-tree/nvim-web-devicons",
+      { "nvim-tree/nvim-web-devicons", tag = "v0.100" },
       "nvim-telescope/telescope.nvim",
     },
     event = "VeryLazy",

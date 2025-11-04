@@ -19,8 +19,8 @@ return {
       },
     },
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "j-hui/fidget.nvim",
+      { "nvim-lua/plenary.nvim", tag = "v0.1.4" },
+      { "j-hui/fidget.nvim", tag = "v1.6.1" },
     },
     config = function(_, opts)
       require("codecompanion").setup(opts)

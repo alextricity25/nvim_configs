@@ -6,7 +6,7 @@ return {
     "saghen/blink.cmp",
     version = "1.*", -- Use v1.x releases for stability
     dependencies = {
-      "rafamadriz/friendly-snippets", -- Provides snippet collection
+      { "rafamadriz/friendly-snippets", branch = "main" }, -- Provides snippet collection (no releases, use main branch)
     },
 
     -- Lazy loading configuration

@@ -30,7 +30,8 @@ return {
   -- Mason-LSPConfig: Bridge between mason.nvim and nvim-lspconfig
   -- Automatically enables installed servers via vim.lsp.enable()
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
+    tag = "v2.1.0",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
       ensure_installed = { "lua_ls", "ts_ls" },
@@ -41,6 +42,7 @@ return {
   -- LSP Configuration using vim.lsp.config API (Neovim 0.11+)
   {
     "neovim/nvim-lspconfig",
+    tag = "v2.5.0",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "williamboman/mason.nvim",

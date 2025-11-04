@@ -6,11 +6,12 @@ return {
     "nvim-telescope/telescope.nvim",
     branch = "0.1.x",
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
+      { "nvim-lua/plenary.nvim", tag = "v0.1.4" },
+      { "nvim-tree/nvim-web-devicons", tag = "v0.100" },
       -- FZF native for better performance
       {
         "nvim-telescope/telescope-fzf-native.nvim",
+        branch = "main", -- No releases, use main branch
         build = "make",
         cond = function()
           return vim.fn.executable("make") == 1
@@ -218,7 +219,7 @@ return {
     version = "*",
     lazy = false,
     dependencies = {
-      "nvim-tree/nvim-web-devicons",
+      { "nvim-tree/nvim-web-devicons", tag = "v0.100" },
     },
     config = function()
       require("nvim-tree").setup({

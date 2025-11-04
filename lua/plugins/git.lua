@@ -4,6 +4,7 @@ return {
   -- Gitsigns: Git integration for buffers
   {
     "lewis6991/gitsigns.nvim",
+    tag = "v1.0.2",
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       signs = {
