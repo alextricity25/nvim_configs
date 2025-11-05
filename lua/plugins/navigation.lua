@@ -202,6 +202,7 @@ return {
 
       -- Load extensions
       pcall(telescope.load_extension, "fzf")
+      pcall(telescope.load_extension, "yaml_schema")
 
       -- Register keymaps with which-key
       local wk = require("which-key")
@@ -280,6 +281,55 @@ return {
       local wk = require("which-key")
       wk.add({
         { "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "Toggle file explorer" },
+      })
+    end,
+  },
+
+  -- yaml-companion.nvim: YAML schema management and detection
+  {
+    "someone-stole-my-name/yaml-companion.nvim",
+    ft = { "yaml", "helm" },
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "nvim-telescope/telescope.nvim",
+    },
+    opts = {
+      -- Built-in matchers for common YAML files
+      builtin_matchers = {
+        kubernetes = { enabled = true },
+        cloud_init = { enabled = true },
+      },
+      -- Schema store settings
+      schemas = {
+        {
+          name = "Kubernetes",
+          uri = "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.28.0-standalone-strict/all.json",
+        },
+      },
+      -- LSP configuration
+      lspconfig = {
+        flags = {
+          debounce_text_changes = 150,
+        },
+        settings = {
+          yaml = {
+            validate = true,
+            schemaStore = {
+              enable = true,
+              url = "https://www.schemastore.org/api/json/catalog.json",
+            },
+          },
+        },
+      },
+    },
+    config = function(_, opts)
+      local yaml_companion = require("yaml-companion")
+      yaml_companion.setup(opts)
+
+      -- Register Telescope picker for manual schema selection
+      local wk = require("which-key")
+      wk.add({
+        { "<leader>fy", "<cmd>Telescope yaml_schema<cr>", desc = "YAML schemas" },
       })
     end,
   },

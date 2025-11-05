@@ -34,7 +34,12 @@ return {
     tag = "v2.1.0",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
-      ensure_installed = { "lua_ls", "ts_ls" },
+      ensure_installed = {
+        "lua_ls",
+        "ts_ls",
+        "helm_ls",     -- Helm language server
+        "yamlls",      -- YAML language server (required for helm-ls integration)
+      },
       automatic_installation = true,
     },
   },
@@ -107,6 +112,68 @@ return {
 
       -- Enable ts_ls
       vim.lsp.enable("ts_ls")
+
+      -- Configure yamlls (YAML Language Server) with Kubernetes schemas
+      vim.lsp.config("yamlls", {
+        capabilities = capabilities,
+        settings = {
+          yaml = {
+            validate = true,
+            hover = true,
+            completion = true,
+            format = {
+              enable = true,
+            },
+            schemas = {
+              -- Kubernetes schemas for different file patterns
+              kubernetes = {
+                "k8s*.yaml",
+                "k8s*.yml",
+                "kubernetes/*.yaml",
+                "kubernetes/*.yml",
+              },
+              -- Helm Chart.yaml schema
+              ["http://json.schemastore.org/chart"] = "Chart.{yaml,yml}",
+              -- Helm values schema
+              ["http://json.schemastore.org/helmfile"] = "helmfile.{yaml,yml}",
+            },
+            schemaStore = {
+              -- Enable schema store for additional schemas
+              enable = true,
+              -- Use default schema store URL
+              url = "https://www.schemastore.org/api/json/catalog.json",
+            },
+          },
+        },
+      })
+
+      -- Enable yamlls
+      vim.lsp.enable("yamlls")
+
+      -- Configure helm-ls (Helm Language Server)
+      vim.lsp.config("helm_ls", {
+        capabilities = capabilities,
+        settings = {
+          ["helm-ls"] = {
+            -- Path to yaml-language-server for integration
+            yamlls = {
+              enabled = true,
+              path = "yaml-language-server",
+            },
+            -- Lint configuration
+            lint = {
+              enabled = true,
+              -- Add messages to ignore (e.g., {"icon is recommended"})
+              ignoredMessages = {},
+            },
+            -- Additional values files glob pattern
+            valuesFilesGlob = "values*.yaml",
+          },
+        },
+      })
+
+      -- Enable helm_ls
+      vim.lsp.enable("helm_ls")
 
       -- Register LSP keymaps with which-key
       local wk = require("which-key")
