@@ -4,6 +4,7 @@
   "codecompanion.nvim": { "branch": "main", "commit": "9c646bd193cb622fff1f9717177502fc6ad30a4a" },
   "fidget.nvim": { "branch": "main", "commit": "b61e8af9b8b68ee0ec7da5fb7a8c203aae854f2e" },
   "friendly-snippets": { "branch": "main", "commit": "572f5660cf05f8cd8834e096d7b4c921ba18e175" },
+  "gitlinker.nvim": { "branch": "master", "commit": "63cfbb7ba0465fa4a599f57c08c888abb188a595" },
   "gitsigns.nvim": { "branch": "main", "commit": "7010000889bfb6c26065e0b0f7f1e6aa9163edd9" },
   "helm-ls.nvim": { "branch": "main", "commit": "d6f3a8d4ad59b4f54cd734267dfb5411679ea608" },
   "kube-utils-nvim": { "branch": "main", "commit": "279a9b051ec4a8dbc3b55d3f51f4a53df98b9111" },

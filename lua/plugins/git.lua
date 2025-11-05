@@ -105,13 +105,19 @@ return {
     },
   },
 
-  -- Fugitive
-  -- Example:
-  -- {
-  --   "tpope/vim-fugitive",
-  --   cmd = "Git",
-  --   keys = {
-  --     { "<leader>gg", "<cmd>Git<cr>", desc = "Git status" },
-  --   },
-  -- },
+  -- Gitlinker: Generate and open git remote URLs (lightweight GBrowse alternative)
+  {
+    "linrongbin16/gitlinker.nvim",
+    config = function()
+      require("gitlinker").setup({
+        message = false, -- Don't print message after copying
+      })
+
+      local wk = require("which-key")
+      wk.add({
+        { "<leader>gy", "<cmd>GitLink<CR>", desc = "Copy git link", mode = { "n", "v" } },
+        { "<leader>gY", "<cmd>GitLink!<CR>", desc = "Open git link in browser", mode = { "n", "v" } },
+      })
+    end,
+  },
 }
