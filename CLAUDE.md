@@ -226,6 +226,49 @@ end
 2. Add/modify treesitter configuration
 3. Add languages to `ensure_installed`
 
+#### Scenario 5: User wants to add language support (e.g., Bash)
+1. **LSP Setup** - Add to `lua/plugins/lsp.lua`:
+   - Add language server to Mason's `ensure_installed` array
+   - Configure server with `vim.lsp.config("<server_name>", { ... })`
+   - Enable server with `vim.lsp.enable("<server_name>")`
+2. **Treesitter** - Add to `lua/plugins/editor.lua`:
+   - Add language to treesitter's `ensure_installed` array
+3. **Linting/Formatting** - Add to `lua/plugins/coding.lua`:
+   - Add linter to nvim-lint's `linters_by_ft` configuration
+   - Add formatter to conform.nvim's `formatters_by_ft` configuration
+   - Add tools to mason-tool-installer's `ensure_installed` array
+4. **Filetype Settings** (optional) - Create `after/ftplugin/<filetype>.lua`:
+   - Set buffer-local options with `vim.opt_local`
+   - Add buffer-local keymaps with `{ buffer = 0 }`
+   - Register keymaps with which-key using `buffer = 0` parameter
+
+Example structure for bash support:
+```lua
+-- In lua/plugins/lsp.lua (ensure_installed)
+ensure_installed = { "bashls", ... }
+
+-- In lua/plugins/lsp.lua (config function)
+vim.lsp.config("bashls", {
+  capabilities = capabilities,
+  filetypes = { "sh", "bash" },
+})
+vim.lsp.enable("bashls")
+
+-- In lua/plugins/coding.lua (conform.nvim)
+formatters_by_ft = {
+  bash = { "shfmt" },
+}
+
+-- In lua/plugins/coding.lua (nvim-lint)
+linters_by_ft = {
+  bash = { "shellcheck" },
+}
+
+-- In after/ftplugin/bash.lua
+vim.opt_local.tabstop = 2
+vim.opt_local.shiftwidth = 2
+```
+
 ## Plugin Management with lazy.nvim
 
 ### Useful Commands
@@ -320,8 +363,52 @@ end
 ## Current Configuration
 
 ### Installed Plugins
+
+#### Core Plugins
 - **which-key.nvim** - Keymap discovery and documentation (pinned to latest version)
 - **claudecode.nvim** - AI coding assistant with Claude Code CLI integration
+- **nvim-treesitter** - Syntax highlighting and code understanding
+- **mason.nvim** - LSP/DAP/linter/formatter package manager
+- **nvim-lspconfig** - LSP configuration framework
+
+#### Development Tools
+- **conform.nvim** - Code formatter plugin
+- **nvim-lint** - Linter integration plugin
+- **mason-tool-installer.nvim** - Auto-install formatters and linters
+- **kube-utils-nvim** - Kubernetes and Helm operations
+
+#### Completion
+- **blink.cmp** - Completion engine with LSP support
+
+### Language Support
+
+#### Bash/Shell Scripting
+Complete bash development environment with:
+- **LSP**: `bashls` (bash-language-server) with shellcheck integration
+- **Linting**: `shellcheck` via nvim-lint (auto-lints on save/edit)
+- **Formatting**: `shfmt` via conform.nvim (format on save, 2-space indent)
+- **Syntax**: Treesitter bash parser for accurate highlighting
+- **Filetypes**: `.sh`, `.bash`, `.inc`, `.command` files
+
+Bash-specific keymaps (buffer-local in `after/ftplugin/bash.lua`):
+- `<leader>rx` - Make executable and run
+- `<leader>rr` - Run with bash
+- `<leader>rs` - Run shellcheck
+- `<leader>cf` - Format buffer
+- `<leader>cl` - Lint buffer
+
+#### Lua
+- **LSP**: `lua_ls` with Neovim API awareness
+- **Syntax**: Treesitter lua parser
+
+#### TypeScript/JavaScript
+- **LSP**: `ts_ls` with inlay hints
+- **Syntax**: Treesitter parsers for TS/JS
+
+#### YAML/Helm/Kubernetes
+- **LSP**: `yamlls` with Kubernetes schemas, `helm_ls` for Helm templates
+- **Syntax**: Treesitter parsers for YAML, Helm, and Go templates
+- **Tools**: kube-utils-nvim for K8s operations
 
 ### Leader Keys
 - `<Space>` - Main leader key
@@ -331,11 +418,14 @@ end
 The configuration includes pre-configured leader key groups:
 - `<leader>a` - AI
 - `<leader>b` - Buffers
-- `<leader>c` - Code
+- `<leader>c` - Code (includes formatting/linting)
 - `<leader>d` - Debug
 - `<leader>f` - Find
 - `<leader>g` - Git
+- `<leader>h` - Helm operations
+- `<leader>k` - Kubernetes operations
 - `<leader>l` - LSP
+- `<leader>r` - Run (buffer-local for bash files)
 - `<leader>s` - Search
 - `<leader>t` - Test
 - `<leader>w` - Window
@@ -405,7 +495,7 @@ The following leader key groups are already configured and should be used consis
 
 ---
 
-**Last Updated**: 2025-11-02
+**Last Updated**: 2025-11-06
 **Neovim Version**: 0.9+
 **Plugin Manager**: lazy.nvim
 **Keymap Manager**: which-key.nvim

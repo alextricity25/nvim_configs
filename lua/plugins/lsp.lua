@@ -37,6 +37,7 @@ return {
       ensure_installed = {
         "lua_ls",
         "ts_ls",
+        "bashls",      -- Bash language server
         "helm_ls",     -- Helm language server
         "yamlls",      -- YAML language server (required for helm-ls integration)
       },
@@ -112,6 +113,23 @@ return {
 
       -- Enable ts_ls
       vim.lsp.enable("ts_ls")
+
+      -- Configure bashls (Bash Language Server)
+      vim.lsp.config("bashls", {
+        capabilities = capabilities,
+        filetypes = { "sh", "bash" },
+        settings = {
+          bashIde = {
+            -- Enable/disable shellcheck integration
+            shellcheckPath = "shellcheck",
+            -- Glob pattern for ignored files
+            globPattern = "*@(.sh|.inc|.bash|.command)",
+          },
+        },
+      })
+
+      -- Enable bashls
+      vim.lsp.enable("bashls")
 
       -- Configure yamlls (YAML Language Server) with Kubernetes schemas
       vim.lsp.config("yamlls", {
