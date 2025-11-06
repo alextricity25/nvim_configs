@@ -2,28 +2,25 @@
 
 return {
   {
-    "olimorris/codecompanion.nvim",
-    tag = "v17.29.0",
-    opts = {
-      display = {
-        chat = {
-          window = {
-            position = "right",
-          },
-        },
-      },
-      strategies = {
-        chat = {
-          adapter = "claude_code",
-        },
-      },
-    },
+    "coder/claudecode.nvim",
     dependencies = {
-      { "nvim-lua/plenary.nvim", tag = "v0.1.4" },
-      { "j-hui/fidget.nvim", tag = "v1.6.1" },
+      "folke/snacks.nvim",
+    },
+    opts = {
+      -- Terminal configuration
+      terminal = {
+        split_side = "right",
+        split_width_percentage = 0.30,
+      },
+      -- Auto-focus terminal after sending content
+      focus_after_send = false,
+      -- Track selection for real-time context updates
+      track_selection = true,
+      -- Automatically detect git repository root
+      git_repo_cwd = true,
     },
     config = function(_, opts)
-      require("codecompanion").setup(opts)
+      require("claudecode").setup(opts)
 
       -- Register keymaps with which-key
       local wk = require("which-key")
@@ -33,22 +30,12 @@ return {
         { "<leader>a", group = "AI" },
 
         -- Core commands
-        { "<leader>aa", "<cmd>CodeCompanionActions<CR>", desc = "Actions", mode = { "n", "v" } },
-        { "<leader>ac", "<cmd>CodeCompanionChat Toggle<CR>", desc = "Chat toggle" },
-        { "<leader>ai", "<cmd>CodeCompanion<CR>", desc = "Inline assistant", mode = { "n", "v" } },
-        { "<leader>aA", "<cmd>CodeCompanionChat Add<CR>", desc = "Add to chat", mode = "v" },
-
-        -- Prompt library shortcuts
-        { "<leader>ap", group = "Prompts" },
-        { "<leader>apc", "<cmd>CodeCompanion /commit<CR>", desc = "Generate commit message", mode = { "n", "v" } },
-        { "<leader>ape", "<cmd>CodeCompanion /explain<CR>", desc = "Explain code", mode = "v" },
-        { "<leader>apf", "<cmd>CodeCompanion /fix<CR>", desc = "Fix code", mode = "v" },
-        { "<leader>apl", "<cmd>CodeCompanion /lsp<CR>", desc = "Explain LSP diagnostics" },
-        { "<leader>apt", "<cmd>CodeCompanion /tests<CR>", desc = "Generate tests", mode = "v" },
-
-        -- Additional utilities
-        { "<leader>ar", "<cmd>CodeCompanionChat RefreshCache<CR>", desc = "Refresh chat cache" },
-        { "<leader>am", "<cmd>CodeCompanionCmd<CR>", desc = "Generate command" },
+        { "<leader>ac", "<cmd>ClaudeCode<CR>", desc = "Toggle Claude terminal" },
+        { "<leader>as", "<cmd>ClaudeCodeSend<CR>", desc = "Send selection to Claude", mode = "v" },
+        { "<leader>af", "<cmd>ClaudeCodeFocus<CR>", desc = "Focus Claude window" },
+        { "<leader>am", "<cmd>ClaudeCodeSelectModel<CR>", desc = "Select Claude model" },
+        { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<CR>", desc = "Accept diff" },
+        { "<leader>add", "<cmd>ClaudeCodeDiffDeny<CR>", desc = "Reject diff" },
       })
     end,
   },

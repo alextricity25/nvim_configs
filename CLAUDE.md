@@ -321,7 +321,7 @@ end
 
 ### Installed Plugins
 - **which-key.nvim** - Keymap discovery and documentation (pinned to latest version)
-- **codecompanion.nvim** - AI coding assistant with Claude Code integration
+- **claudecode.nvim** - AI coding assistant with Claude Code CLI integration
 
 ### Leader Keys
 - `<Space>` - Main leader key
@@ -409,9 +409,3 @@ The following leader key groups are already configured and should be used consis
 **Neovim Version**: 0.9+
 **Plugin Manager**: lazy.nvim
 **Keymap Manager**: which-key.nvim
-
-
-
-
-
-
