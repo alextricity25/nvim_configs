@@ -10,14 +10,46 @@ return {
       formatters_by_ft = {
         bash = { "shfmt" },
         sh = { "shfmt" },
+        -- PHP/Laravel formatting
+        php = { "pint" },           -- Laravel Pint (must be run via Docker)
+        blade = { "blade-formatter" },
+        javascript = { "prettier" },
+        typescript = { "prettier" },
+        css = { "prettier" },
+        json = { "prettier" },
       },
       format_on_save = {
-        timeout_ms = 500,
+        timeout_ms = 3000,  -- Increase timeout for Docker commands
         lsp_fallback = true,
       },
       formatters = {
         shfmt = {
           prepend_args = { "-i", "2", "-ci" }, -- 2 space indent, indent switch cases
+        },
+        -- Docker-aware Pint formatter for Laravel projects
+        pint = {
+          command = "sh",
+          args = function(self, ctx)
+            return {
+              "-c",
+              -- Check if docker-compose.yml exists, if so use Docker, otherwise try local pint
+              [[
+                if [ -f docker-compose.yml ] || [ -f docker-compose.yaml ]; then
+                  docker compose exec -T utility vendor/bin/pint "$FILENAME" 2>/dev/null || vendor/bin/pint "$FILENAME"
+                else
+                  vendor/bin/pint "$FILENAME"
+                fi
+              ]],
+            }
+          end,
+          stdin = false,
+          cwd = function(self, ctx)
+            return require("conform.util").root_file({
+              "composer.json",
+              "docker-compose.yml",
+              "docker-compose.yaml",
+            })(self, ctx)
+          end,
         },
       },
     },
@@ -69,8 +101,11 @@ return {
     dependencies = { "williamboman/mason.nvim" },
     opts = {
       ensure_installed = {
-        "shellcheck",  -- Bash linter
-        "shfmt",       -- Bash formatter
+        "shellcheck",        -- Bash linter
+        "shfmt",             -- Bash formatter
+        -- PHP/Laravel tools
+        "blade-formatter",   -- Blade template formatter
+        "prettier",          -- JavaScript/CSS/JSON formatter
       },
       auto_update = false,
       run_on_start = true,
@@ -98,7 +133,7 @@ return {
         { "<leader>hD", "<cmd>HelmDepBuild<cr>", desc = "Helm dependency build" },
         { "<leader>hU", "<cmd>HelmDepUpdate<cr>", desc = "Helm dependency update" },
         { "<leader>hl", "<cmd>HelmList<cr>", desc = "Helm list" },
-        
+
         { "<leader>k", group = "Kubernetes" },
         { "<leader>kk", "<cmd>OpenK9s<cr>", desc = "Open K9s" },
         { "<leader>kp", "<cmd>K8sPods<cr>", desc = "List pods" },

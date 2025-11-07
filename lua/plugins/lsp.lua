@@ -37,9 +37,15 @@ return {
       ensure_installed = {
         "lua_ls",
         "ts_ls",
-        "bashls",      -- Bash language server
-        "helm_ls",     -- Helm language server
-        "yamlls",      -- YAML language server (required for helm-ls integration)
+        "bashls",     -- Bash language server
+        "helm_ls",    -- Helm language server
+        "yamlls",     -- YAML language server (required for helm-ls integration)
+        -- PHP/Laravel development
+        "laravel_ls", -- Laravel-specific language server
+        "intelephense",
+        -- "tailwindcss",
+        "html",   -- HTML language server (for Blade templates)
+        "jsonls", -- JSON language server (for composer.json, package.json)
       },
       automatic_installation = true,
     },
@@ -193,24 +199,149 @@ return {
       -- Enable helm_ls
       vim.lsp.enable("helm_ls")
 
+      -- ========================================
+      -- PHP/Laravel Development LSP Configuration
+      -- ========================================
+
+      -- Configure Intelephense (PHP Language Server)
+      vim.lsp.config("intelephense", {
+        capabilities = capabilities,
+        filetypes = { "php", "blade" },
+        root_markers = { "artisan" },
+        settings = {
+          intelephense = {
+            trace = {
+              server = "messages",
+            },
+            environment = {
+              includePaths = { "./_ide_helper.php", "_ide_helper_models.php" },
+            },
+            files = {
+              maxSize = 10000000, -- Increase for larger Laravel projects (3MB)
+              associations = { "*.php", "*.blade.php" },
+              exclude = {
+                "**/node_modules/**",
+                "**/vendor/**/Tests/**",
+                "**/vendor/**/tests/**",
+                "**/storage/**",
+                "**/bootstrap/cache/**",
+              },
+            },
+            format = {
+              enable = false, -- Use Laravel Pint for formatting instead
+            },
+            telemetry = {
+              enabled = false,
+            },
+            stubs = {
+              -- PHP built-in stubs
+              "apache", "bcmath", "Core", "ctype", "curl", "date",
+              "dom", "fileinfo", "filter", "ftp", "gd", "hash",
+              "iconv", "json", "libxml", "mbstring", "mysqli",
+              "openssl", "pcntl", "pcre", "PDO", "pdo_mysql", "pdo_pgsql",
+              "Phar", "posix", "readline", "Reflection", "session",
+              "SimpleXML", "soap", "sockets", "sodium", "SPL",
+              "standard", "tokenizer", "xml", "xmlreader", "xmlwriter",
+              "zip", "zlib",
+              -- Laravel-specific stubs
+              "laravel", "phpunit", "pest",
+            },
+          },
+        },
+      })
+
+      -- Enable intelephense
+      vim.lsp.enable("intelephense")
+
+      -- Configure Laravel Language Server
+      vim.lsp.config("laravel_ls", {
+        capabilities = capabilities,
+        cmd = { "/Users/alexcantu/.local/share/nvim/mason/bin/laravel-ls" },
+        filetypes = { "php", "blade" },
+      })
+
+      -- Enable laravel_ls
+      vim.lsp.enable("laravel_ls")
+
+      -- Configure Tailwind CSS LSP (Critical for Filament)
+      -- vim.lsp.config("tailwindcss", {
+      --   capabilities = capabilities,
+      --   filetypes = { "html", "blade", "php", "vue", "javascript", "typescript", "css" },
+      --   settings = {
+      --     tailwindCSS = {
+      --       experimental = {
+      --         classRegex = {
+      --           -- Match Tailwind classes in PHP files
+      --           "class: \"([^\"]*)\"",
+      --           "class: '([^']*)'",
+      --           "@class\\(\"([^\"]*)\"\\)",
+      --           "@class\\('([^']*)'\\)",
+      --           -- Livewire/Volt class attribute
+      --           "\\bclass\\s*=\\s*[\"']([^\"']*)[\"']",
+      --         },
+      --       },
+      --       validate = true,
+      --       lint = {
+      --         cssConflict = "warning",
+      --         invalidApply = "error",
+      --         invalidScreen = "error",
+      --         invalidVariant = "error",
+      --         invalidConfigPath = "error",
+      --         invalidTailwindDirective = "error",
+      --       },
+      --     },
+      --   },
+      -- })
+
+      -- Enable tailwindcss
+      -- vim.lsp.enable("tailwindcss")
+
+      -- Configure HTML LSP (for Blade templates)
+      vim.lsp.config("html", {
+        capabilities = capabilities,
+        filetypes = { "html", "blade" },
+      })
+
+      -- Enable html
+      vim.lsp.enable("html")
+
+      -- Configure JSON LSP (for composer.json, package.json)
+      vim.lsp.config("jsonls", {
+        capabilities = capabilities,
+        settings = {
+          json = {
+            schemas = {
+              {
+                fileMatch = { "composer.json" },
+                url = "https://getcomposer.org/schema.json",
+              },
+              {
+                fileMatch = { "package.json" },
+                url = "https://json.schemastore.org/package.json",
+              },
+            },
+          },
+        },
+      })
+
+      -- Enable jsonls
+      vim.lsp.enable("jsonls")
+
       -- Register LSP keymaps with which-key
       local wk = require("which-key")
       wk.add({
-        { "<leader>l", group = "LSP" },
-        { "<leader>la", vim.lsp.buf.code_action, desc = "Code action" },
-        { "<leader>lr", vim.lsp.buf.rename, desc = "Rename" },
-        { "<leader>lf", vim.lsp.buf.format, desc = "Format" },
-        { "<leader>ld", vim.lsp.buf.definition, desc = "Go to definition" },
-        { "<leader>lD", vim.lsp.buf.declaration, desc = "Go to declaration" },
-        { "<leader>li", vim.lsp.buf.implementation, desc = "Go to implementation" },
+        { "<leader>l",  group = "LSP" },
+        { "<leader>la", vim.lsp.buf.code_action,     desc = "Code action" },
+        { "<leader>lr", vim.lsp.buf.rename,          desc = "Rename" },
+        { "<leader>lf", vim.lsp.buf.format,          desc = "Format" },
+        { "<leader>ld", vim.lsp.buf.definition,      desc = "Go to definition" },
+        { "<leader>lD", vim.lsp.buf.declaration,     desc = "Go to declaration" },
+        { "<leader>li", vim.lsp.buf.implementation,  desc = "Go to implementation" },
         { "<leader>lt", vim.lsp.buf.type_definition, desc = "Type definition" },
-        { "<leader>lR", vim.lsp.buf.references, desc = "References" },
-        { "K", vim.lsp.buf.hover, desc = "Hover documentation" },
-        { "<C-k>", vim.lsp.buf.signature_help, desc = "Signature help", mode = "i" },
+        { "<leader>lR", vim.lsp.buf.references,      desc = "References" },
+        { "K",          vim.lsp.buf.hover,           desc = "Hover documentation" },
+        { "<C-k>",      vim.lsp.buf.signature_help,  desc = "Signature help",      mode = "i" },
       })
     end,
   },
 }
-
-
-

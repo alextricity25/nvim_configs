@@ -4,7 +4,7 @@ return {
   {
     "coder/claudecode.nvim",
     dependencies = {
-      "folke/snacks.nvim",
+      { "folke/snacks.nvim", version = "v2.30.0" },
     },
     opts = {
       -- Terminal configuration
@@ -27,15 +27,15 @@ return {
 
       wk.add({
         -- AI group under <leader>a
-        { "<leader>a", group = "AI" },
+        { "<leader>a",   group = "AI" },
 
         -- Core commands
-        { "<leader>ac", "<cmd>ClaudeCode<CR>", desc = "Toggle Claude terminal" },
-        { "<leader>as", "<cmd>ClaudeCodeSend<CR>", desc = "Send selection to Claude", mode = "v" },
-        { "<leader>af", "<cmd>ClaudeCodeFocus<CR>", desc = "Focus Claude window" },
-        { "<leader>am", "<cmd>ClaudeCodeSelectModel<CR>", desc = "Select Claude model" },
-        { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<CR>", desc = "Accept diff" },
-        { "<leader>add", "<cmd>ClaudeCodeDiffDeny<CR>", desc = "Reject diff" },
+        { "<leader>ac",  "<cmd>ClaudeCode<CR>",            desc = "Toggle Claude terminal" },
+        { "<leader>as",  "<cmd>ClaudeCodeSend<CR>",        desc = "Send selection to Claude", mode = "v" },
+        { "<leader>af",  "<cmd>ClaudeCodeFocus<CR>",       desc = "Focus Claude window" },
+        { "<leader>am",  "<cmd>ClaudeCodeSelectModel<CR>", desc = "Select Claude model" },
+        { "<leader>aa",  "<cmd>ClaudeCodeDiffAccept<CR>",  desc = "Accept diff" },
+        { "<leader>add", "<cmd>ClaudeCodeDiffDeny<CR>",    desc = "Reject diff" },
       })
     end,
   },

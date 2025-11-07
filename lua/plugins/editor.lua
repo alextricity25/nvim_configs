@@ -24,11 +24,19 @@ return {
           "json",
           "markdown",
           "regex",
+          -- PHP/Laravel development
+          "php",       -- PHP syntax
+          "phpdoc",    -- PHPDoc comments
+          -- Note: blade parser not available in standard treesitter
+          -- Use html parser for .blade.php files instead
+          "html",      -- HTML (used in Blade)
+          "css",       -- CSS (for Tailwind)
+          "dockerfile", -- Docker files
         },
-        
+
         -- Auto install missing parsers when entering buffer
         auto_install = true,
-        
+
         -- Enable syntax highlighting
         highlight = {
           enable = true,
@@ -42,14 +50,14 @@ return {
           end,
           additional_vim_regex_highlighting = false,
         },
-        
+
         -- Enable indentation
         indent = {
           enable = true,
           -- Disable for YAML as it can be problematic
           disable = { "yaml" },
         },
-        
+
         -- Enable incremental selection
         incremental_selection = {
           enable = true,

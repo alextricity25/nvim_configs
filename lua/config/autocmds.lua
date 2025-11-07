@@ -69,3 +69,10 @@ autocmd("FileType", {
   end,
   desc = "Enable wrap and spell for text filetypes",
 })
+
+-- Blade filetype detection for Laravel templates
+vim.filetype.add({
+  pattern = {
+    [".*%.blade%.php"] = "blade",
+  },
+})
