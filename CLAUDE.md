@@ -370,6 +370,7 @@ vim.opt_local.shiftwidth = 2
 - **nvim-treesitter** - Syntax highlighting and code understanding
 - **mason.nvim** - LSP/DAP/linter/formatter package manager
 - **nvim-lspconfig** - LSP configuration framework
+- **snacks.nvim** - Collection of QoL plugins (gitbrowse, bufdelete, terminal, smooth scroll)
 
 #### Development Tools
 - **conform.nvim** - Code formatter plugin
@@ -427,7 +428,7 @@ The configuration includes pre-configured leader key groups:
 - `<leader>l` - LSP
 - `<leader>r` - Run (buffer-local for bash files)
 - `<leader>s` - Search
-- `<leader>t` - Test
+- `<leader>t` - Terminal
 - `<leader>w` - Window
 - `<leader>x` - Diagnostics
 
@@ -440,6 +441,29 @@ The configuration includes pre-configured leader key groups:
 - Diagnostic navigation keymaps
 - System clipboard integration
 - Interactive keymap discovery with which-key
+- Floating terminal popup via snacks.nvim (`<leader>tp`)
+- Smooth scrolling animations via snacks.nvim
+
+### Terminal Configuration
+The configuration includes a floating terminal powered by snacks.nvim:
+- **Toggle keymap**: `<leader>tp` - Toggle floating terminal popup
+- **Window style**: Floating window with rounded borders (80% width/height)
+- **Interactive mode**: Auto-insert, auto-close enabled by default
+- **Default keymaps** (in terminal):
+  - `q` - Hide terminal (terminal persists)
+  - `Esc` (double-tap) - Exit insert mode
+  - `gf` - Open file under cursor
+- **Features**: Terminal sessions persist when hidden, allowing quick toggle back to the same session
+
+### Scroll Configuration
+Smooth scrolling is enabled via snacks.nvim scroll module:
+- **Primary animation**: 200ms total duration with 10ms steps (linear easing)
+- **Repeat animation**: 50ms total duration with 5ms steps for faster repeated scrolls
+- **Behavior**: Properly handles `scrolloff` and mouse scrolling
+- **Buffer filtering**: Automatically excludes terminal buffers from smooth scrolling
+- **Control methods**:
+  - `:lua Snacks.scroll.enable()` - Enable smooth scrolling
+  - `:lua Snacks.scroll.disable()` - Disable smooth scrolling
 
 ## Contributing
 
@@ -489,13 +513,13 @@ The following leader key groups are already configured and should be used consis
 - `<leader>g` - Git operations
 - `<leader>l` - LSP actions
 - `<leader>s` - Search operations
-- `<leader>t` - Testing
+- `<leader>t` - Terminal operations
 - `<leader>w` - Window management
 - `<leader>x` - Diagnostics
 
 ---
 
-**Last Updated**: 2025-11-06
+**Last Updated**: 2025-11-11
 **Neovim Version**: 0.9+
 **Plugin Manager**: lazy.nvim
 **Keymap Manager**: which-key.nvim

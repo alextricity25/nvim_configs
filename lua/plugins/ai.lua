@@ -4,7 +4,7 @@ return {
   {
     "coder/claudecode.nvim",
     dependencies = {
-      { "folke/snacks.nvim", version = "v2.30.0" },
+      "folke/snacks.nvim",
     },
     opts = {
       -- Terminal configuration

@@ -44,7 +44,7 @@ return {
         { "<leader>g", group = "Git" },
         { "<leader>l", group = "LSP" },
         { "<leader>s", group = "Search" },
-        { "<leader>t", group = "Test" },
+        { "<leader>t", group = "Terminal" },
         { "<leader>w", group = "Window" },
         { "<leader>x", group = "Diagnostics" },
       })
@@ -149,19 +149,18 @@ return {
       -- Register buffer keymaps with which-key
       local wk = require("which-key")
       wk.add({
-        { "<leader>b", group = "Buffers" },
-        { "<leader>bb", "<cmd>Telescope buffers<CR>", desc = "Browse buffers (Telescope)" },
-        { "<leader>bp", "<cmd>BufferLinePick<CR>", desc = "Pick buffer" },
-        { "<leader>bc", "<cmd>BufferLinePickClose<CR>", desc = "Pick close" },
-        { "<leader>bh", "<cmd>BufferLineCloseLeft<CR>", desc = "Close all to left" },
-        { "<leader>bl", "<cmd>BufferLineCloseRight<CR>", desc = "Close all to right" },
+        { "<leader>b",  group = "Buffers" },
+        { "<leader>bb", "<cmd>Telescope buffers<CR>",     desc = "Browse buffers (Telescope)" },
+        { "<leader>bp", "<cmd>BufferLinePick<CR>",        desc = "Pick buffer" },
+        { "<leader>bc", "<cmd>BufferLinePickClose<CR>",   desc = "Pick close" },
+        { "<leader>bh", "<cmd>BufferLineCloseLeft<CR>",   desc = "Close all to left" },
+        { "<leader>bl", "<cmd>BufferLineCloseRight<CR>",  desc = "Close all to right" },
         { "<leader>bo", "<cmd>BufferLineCloseOthers<CR>", desc = "Close others" },
-        { "[b", "<cmd>BufferLineCyclePrev<CR>", desc = "Previous buffer" },
-        { "]b", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
-        { "[B", "<cmd>BufferLineMovePrev<CR>", desc = "Move buffer left" },
-        { "]B", "<cmd>BufferLineMoveNext<CR>", desc = "Move buffer right" },
+        { "[b",         "<cmd>BufferLineCyclePrev<CR>",   desc = "Previous buffer" },
+        { "]b",         "<cmd>BufferLineCycleNext<CR>",   desc = "Next buffer" },
+        { "[B",         "<cmd>BufferLineMovePrev<CR>",    desc = "Move buffer left" },
+        { "]B",         "<cmd>BufferLineMoveNext<CR>",    desc = "Move buffer right" },
       })
     end,
   },
 }
-
