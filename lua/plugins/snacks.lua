@@ -85,6 +85,25 @@ return {
           },
         },
       },
+      -- Enable dim to focus on active scope
+      dim = {
+        enabled = true,
+        -- Scope detection settings
+        scope = {
+          min_size = 5,  -- Minimum lines to dim
+          max_size = 20, -- Maximum lines to dim
+          siblings = true, -- Include sibling scopes
+        },
+        -- Animation configuration
+        animate = {
+          enabled = vim.fn.has("nvim-0.10") == 1,
+          easing = "outQuad",
+          duration = {
+            step = 15,   -- ms per step
+            total = 300, -- ms total
+          },
+        },
+      },
     },
     config = function(_, opts)
       require("snacks").setup(opts)
@@ -120,7 +139,7 @@ return {
         {
           "<leader>tp",
           function()
-            Snacks.terminal.toggle()
+            Snacks.terminal.toggle(nil, { win = { style = "float" } })
           end,
           desc = "Toggle floating terminal",
         },
@@ -145,6 +164,20 @@ return {
           end,
           desc = "Open git link in browser",
           mode = { "n", "v" },
+        },
+        -- Dim controls under <leader>u (UI toggles)
+        {
+          "<leader>ud",
+          function()
+            if Snacks.dim.enabled then
+              Snacks.dim.disable()
+              vim.notify("Dim disabled", vim.log.levels.INFO)
+            else
+              Snacks.dim.enable()
+              vim.notify("Dim enabled", vim.log.levels.INFO)
+            end
+          end,
+          desc = "Toggle dim",
         },
       })
     end,

@@ -37,6 +37,7 @@ return {
       ensure_installed = {
         "lua_ls",
         "ts_ls",
+        "eslint",     -- ESLint language server
         "bashls",     -- Bash language server
         "helm_ls",    -- Helm language server
         "yamlls",     -- YAML language server (required for helm-ls integration)
@@ -119,6 +120,57 @@ return {
 
       -- Enable ts_ls
       vim.lsp.enable("ts_ls")
+
+      -- Configure ESLint Language Server
+      vim.lsp.config("eslint", {
+        capabilities = capabilities,
+        filetypes = {
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact",
+          "vue",
+          "svelte",
+        },
+        settings = {
+          -- Enable auto-fix on save
+          codeActionOnSave = {
+            enable = true,
+            mode = "all",
+          },
+          format = true,
+          -- Use flat config (eslint.config.js)
+          useFlatConfig = true,
+          experimental = {
+            useFlatConfig = true,
+          },
+          run = "onType",
+          -- Validate these languages
+          validate = "probe",
+          -- Work directory configuration
+          workingDirectory = {
+            mode = "auto",
+          },
+        },
+        on_attach = function(client, bufnr)
+          -- Enable format-on-save with ESLint
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            callback = function()
+              vim.lsp.buf.code_action({
+                context = {
+                  only = { "source.fixAll.eslint" },
+                  diagnostics = {},
+                },
+                apply = true,
+              })
+            end,
+          })
+        end,
+      })
+
+      -- Enable eslint
+      vim.lsp.enable("eslint")
 
       -- Configure bashls (Bash Language Server)
       vim.lsp.config("bashls", {

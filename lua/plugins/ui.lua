@@ -45,6 +45,7 @@ return {
         { "<leader>l", group = "LSP" },
         { "<leader>s", group = "Search" },
         { "<leader>t", group = "Terminal" },
+        { "<leader>u", group = "UI" },
         { "<leader>w", group = "Window" },
         { "<leader>x", group = "Diagnostics" },
       })
