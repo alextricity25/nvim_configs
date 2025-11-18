@@ -92,6 +92,11 @@ return {
       vim.lsp.config("ts_ls", {
         capabilities = capabilities,
         filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        on_attach = function(client, bufnr)
+          -- Disable formatting, let ESLint handle it
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end,
         settings = {
           typescript = {
             inlayHints = {
@@ -157,13 +162,10 @@ return {
           vim.api.nvim_create_autocmd("BufWritePre", {
             buffer = bufnr,
             callback = function()
-              vim.lsp.buf.code_action({
-                context = {
-                  only = { "source.fixAll.eslint" },
-                  diagnostics = {},
-                },
-                apply = true,
-              })
+              -- Check if EslintFixAll command exists before running
+              if vim.fn.exists(":EslintFixAll") > 0 then
+                vim.cmd("EslintFixAll")
+              end
             end,
           })
         end,

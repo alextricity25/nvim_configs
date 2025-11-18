@@ -13,8 +13,12 @@ return {
         -- PHP/Laravel formatting
         php = { "pint" }, -- Laravel Pint (must be run via Docker)
         blade = { "blade-formatter" },
-        javascript = { "prettier" },
-        -- typescript = { "prettier" },
+        -- Use ESLint for JS/TS formatting
+        javascript = { "eslint" },
+        javascriptreact = { "eslint" },
+        typescript = { "eslint" },
+        typescriptreact = { "eslint" },
+        -- Keep prettier for non-code files
         css = { "prettier" },
         json = { "prettier" },
       },
@@ -105,7 +109,7 @@ return {
         "shfmt",           -- Bash formatter
         -- PHP/Laravel tools
         "blade-formatter", -- Blade template formatter
-        "prettier",        -- JavaScript/CSS/JSON formatter
+        "prettier",        -- CSS/JSON formatter
       },
       auto_update = false,
       run_on_start = true,
