@@ -4,10 +4,17 @@ return {
   -- Treesitter for syntax highlighting and code understanding
   {
     "nvim-treesitter/nvim-treesitter",
-    version = "v0.9.3",
+    version = "v0.10.0",
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+    dependencies = {
+      -- Blade parser for Laravel Blade templates
+      {
+        "EmranMR/tree-sitter-blade",
+        ft = "blade",
+      },
+    },
     config = function()
       require("nvim-treesitter.configs").setup({
         -- Languages to ensure are installed
@@ -17,20 +24,19 @@ return {
           "vimdoc",
           "javascript",
           "typescript",
-          "yaml",      -- For Kubernetes/Helm YAML files
-          "helm",      -- Helm-specific patterns in templates/
-          "gotmpl",    -- Go template syntax
+          "yaml",   -- For Kubernetes/Helm YAML files
+          "helm",   -- Helm-specific patterns in templates/
+          "gotmpl", -- Go template syntax
           "bash",
           "json",
           "markdown",
           "regex",
           -- PHP/Laravel development
-          "php",       -- PHP syntax
-          "phpdoc",    -- PHPDoc comments
-          -- Note: blade parser not available in standard treesitter
-          -- Use html parser for .blade.php files instead
-          "html",      -- HTML (used in Blade)
-          "css",       -- CSS (for Tailwind)
+          "blade",
+          "php",        -- PHP syntax
+          "phpdoc",     -- PHPDoc comments
+          "html",       -- HTML (used in Blade)
+          "css",        -- CSS (for Tailwind)
           "dockerfile", -- Docker files
         },
 
@@ -71,19 +77,4 @@ return {
       })
     end,
   },
-
-  -- Auto pairs
-  -- Example:
-  -- {
-  --   "windwp/nvim-autopairs",
-  --   event = "InsertEnter",
-  --   opts = {},
-  -- },
-
-  -- Comments
-  -- Example:
-  -- {
-  --   "numToStr/Comment.nvim",
-  --   opts = {},
-  -- },
 }

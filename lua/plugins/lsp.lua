@@ -73,6 +73,7 @@ return {
           Lua = {
             diagnostics = {
               globals = { "vim" },
+              disable = { "missing-fields" }, -- Ignore missing optional fields in type definitions
             },
             workspace = {
               library = vim.api.nvim_get_runtime_file("", true),
