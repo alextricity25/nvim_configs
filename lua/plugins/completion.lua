@@ -4,7 +4,7 @@ return {
   -- blink.cmp: Modern completion engine with built-in LSP, snippets, and fuzzy matching
   {
     "saghen/blink.cmp",
-    version = "1.*", -- Use v1.x releases for stability
+    version = "1.*",                                       -- Use v1.x releases for stability
     dependencies = {
       { "rafamadriz/friendly-snippets", branch = "main" }, -- Provides snippet collection (no releases, use main branch)
     },
@@ -18,7 +18,7 @@ return {
     opts = {
       -- Keymap configuration
       keymap = {
-        preset = "default", -- Uses <C-space>, <C-e>, <C-y>, <Up>/<Down>, <C-p>/<C-n>, Tab/S-Tab
+        preset = "default",                  -- Uses <C-space>, <C-e>, <C-y>, <Up>/<Down>, <C-p>/<C-n>, Tab/S-Tab
         -- Customizations (merged with preset)
         ["<CR>"] = { "accept", "fallback" }, -- Enter to accept completion
         ["<C-k>"] = { "show_documentation", "fallback" },
@@ -28,7 +28,7 @@ return {
       -- Appearance and behavior
       appearance = {
         use_nvim_cmp_as_default = true, -- Use nvim-cmp style highlighting
-        nerd_font_variant = "mono", -- 'mono' or 'normal'
+        nerd_font_variant = "mono",     -- 'mono' or 'normal'
       },
 
       -- Completion sources
@@ -91,16 +91,16 @@ return {
       -- Register keymaps with which-key
       local wk = require("which-key")
       wk.add({
-        { "<C-space>", desc = "Show completion", mode = "i" },
-        { "<C-e>", desc = "Hide completion", mode = "i" },
-        { "<CR>", desc = "Accept completion", mode = "i" },
-        { "<C-y>", desc = "Accept completion (alt)", mode = "i" },
-        { "<C-l>", desc = "Accept completion (alt)", mode = "i" },
-        { "<C-k>", desc = "Show documentation", mode = "i" },
-        { "<C-p>", desc = "Previous item", mode = "i" },
-        { "<C-n>", desc = "Next item", mode = "i" },
-        { "<C-b>", desc = "Scroll docs up", mode = "i" },
-        { "<C-f>", desc = "Scroll docs down", mode = "i" },
+        { "<C-space>", desc = "Show completion",         mode = "i" },
+        { "<C-e>",     desc = "Hide completion",         mode = "i" },
+        { "<CR>",      desc = "Accept completion",       mode = "i" },
+        { "<C-y>",     desc = "Accept completion (alt)", mode = "i" },
+        { "<C-l>",     desc = "Accept completion (alt)", mode = "i" },
+        { "<C-k>",     desc = "Show documentation",      mode = "i" },
+        { "<C-p>",     desc = "Previous item",           mode = "i" },
+        { "<C-n>",     desc = "Next item",               mode = "i" },
+        { "<C-b>",     desc = "Scroll docs up",          mode = "i" },
+        { "<C-f>",     desc = "Scroll docs down",        mode = "i" },
       })
     end,
   },

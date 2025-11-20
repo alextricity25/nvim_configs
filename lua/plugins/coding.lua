@@ -73,6 +73,7 @@ return {
   {
     "mfussenegger/nvim-lint",
     event = { "BufReadPost", "BufNewFile" },
+    commit = "a0718ad",
     config = function()
       local lint = require("lint")
 
