@@ -1,6 +1,67 @@
 -- Git integration plugins
 
 return {
+  -- Diffview: Enhanced diff and merge tool
+  {
+    "sindrets/diffview.nvim",
+    opts = {
+      use_icons = true,
+      enhanced_diff_hl = false,
+      git_cmd = { "git" },
+      show_help_hints = true,
+      file_panel = {
+        listing_style = "tree",
+        tree_options = {
+          flatten_dirs = true,
+          folder_statuses = "only_folded",
+        },
+        win_config = {
+          position = "left",
+          width = 35,
+          win_opts = {},
+        },
+      },
+      file_history_panel = {
+        log_options = {
+          git = {
+            single_file = {
+              diff_merges = "combined",
+            },
+            multi_file = {
+              diff_merges = "first-parent",
+            },
+          },
+        },
+        win_config = {
+          position = "bottom",
+          height = 16,
+          win_opts = {},
+        },
+      },
+      keymaps = {
+        disable_defaults = false,
+      },
+    },
+    config = function(_, opts)
+      require("diffview").setup(opts)
+
+      -- Register top-level keymaps with which-key
+      local wk = require("which-key")
+      wk.add({
+        { "<leader>gv",  group = "Diffview" },
+        { "<leader>gvo", "<cmd>DiffviewOpen<CR>",                    desc = "Open diffview" },
+        { "<leader>gvc", "<cmd>DiffviewClose<CR>",                   desc = "Close diffview" },
+        { "<leader>gvh", "<cmd>DiffviewFileHistory<CR>",             desc = "File history (all)" },
+        { "<leader>gvf", "<cmd>DiffviewFileHistory %<CR>",           desc = "File history (current)" },
+        { "<leader>gvt", "<cmd>DiffviewToggleFiles<CR>",             desc = "Toggle files panel" },
+        { "<leader>gvr", "<cmd>DiffviewRefresh<CR>",                 desc = "Refresh" },
+        { "<leader>gvm", "<cmd>DiffviewOpen origin/main...HEAD<CR>", desc = "Diff with main" },
+        -- Visual mode for line history
+        { "<leader>gvf", ":'<,'>DiffviewFileHistory<CR>",            desc = "File history (selection)", mode = "v" },
+      })
+    end,
+  },
+
   -- Gitsigns: Git integration for buffers
   {
     "lewis6991/gitsigns.nvim",
