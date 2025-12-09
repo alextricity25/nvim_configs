@@ -201,7 +201,7 @@ return {
             hover = true,
             completion = true,
             format = {
-              enable = true,
+              enable = false,
             },
             schemas = {
               -- Kubernetes schemas for different file patterns
