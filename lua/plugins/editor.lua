@@ -1,6 +1,71 @@
 -- Editor enhancement plugins (treesitter, autopairs, comments, etc.)
 
 return {
+  -- nvim-ufo: Better folding with LSP and treesitter support
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = {
+      "kevinhwang91/promise-async",
+    },
+    event = "BufReadPost",
+    config = function()
+      require("ufo").setup({
+        -- Use LSP as primary provider, fall back to treesitter, then indent
+        -- Disable folding for terminal and special buffers
+        provider_selector = function(bufnr, filetype, buftype)
+          -- Disable for terminal buffers
+          if buftype == "terminal" then
+            return ""
+          end
+          -- Disable for special buffer types
+          if buftype ~= "" then
+            return "indent"
+          end
+          -- Disable for specific filetypes without treesitter support
+          local disabled_fts = { "neo-tree", "toggleterm", "TelescopePrompt" }
+          if vim.tbl_contains(disabled_fts, filetype) then
+            return "indent"
+          end
+          return { "lsp", "treesitter" }
+        end,
+        -- Optional: Preview fold with peek
+        preview = {
+          win_config = {
+            border = "rounded",
+            winhighlight = "Normal:Folded",
+            winblend = 0,
+          },
+          mappings = {
+            scrollU = "<C-u>",
+            scrollD = "<C-d>",
+            jumpTop = "[",
+            jumpBot = "]",
+          },
+        },
+      })
+
+      -- Register keymaps with which-key
+      local wk = require("which-key")
+      wk.add({
+        { "zR", require("ufo").openAllFolds,         desc = "Open all folds" },
+        { "zM", require("ufo").closeAllFolds,        desc = "Close all folds" },
+        { "zr", require("ufo").openFoldsExceptKinds, desc = "Open folds except kinds" },
+        { "zm", require("ufo").closeFoldsWith,       desc = "Close folds with level" },
+        {
+          "zK",
+          function()
+            local winid = require("ufo").peekFoldedLinesUnderCursor()
+            if not winid then
+              vim.lsp.buf.hover()
+            end
+          end,
+          desc = "Peek fold or hover"
+        },
+      })
+    end,
+  },
+
+
   -- Treesitter for syntax highlighting and code understanding
   {
     "nvim-treesitter/nvim-treesitter",

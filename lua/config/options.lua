@@ -58,10 +58,11 @@ opt.completeopt = "menu,menuone,noselect"
 opt.scrolloff = 8
 opt.sidescrolloff = 8
 
--- Fold settings
-opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
-opt.foldenable = false
+-- Fold settings (configured for nvim-ufo)
+opt.foldcolumn = "1"
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+opt.foldenable = true
 
 -- Mouse
 opt.mouse = "a"
