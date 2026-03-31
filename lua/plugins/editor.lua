@@ -26,7 +26,7 @@ return {
           if vim.tbl_contains(disabled_fts, filetype) then
             return "indent"
           end
-          return { "lsp", "treesitter" }
+          return { "treesitter", "indent" }
         end,
         -- Optional: Preview fold with peek
         preview = {
