@@ -236,7 +236,14 @@ return {
 
         -- View settings
         view = {
-          width = 30,
+          -- Adaptive width: grow to fit the longest visible filename.
+          -- min keeps a sensible floor, max = -1 means no upper bound
+          -- (never truncate), padding adds trailing space after names.
+          width = {
+            min = 30,
+            max = -1,
+            padding = 1,
+          },
           side = "left",
         },
 
