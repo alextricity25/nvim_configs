@@ -366,7 +366,6 @@ vim.opt_local.shiftwidth = 2
 
 #### Core Plugins
 - **which-key.nvim** - Keymap discovery and documentation (pinned to latest version)
-- **claudecode.nvim** - AI coding assistant with Claude Code CLI integration
 - **nvim-treesitter** - Syntax highlighting and code understanding
 - **mason.nvim** - LSP/DAP/linter/formatter package manager
 - **nvim-lspconfig** - LSP configuration framework
